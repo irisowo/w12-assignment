@@ -30,7 +30,7 @@ describe('Potter', () => {
 
     // add 3 same books
     potter = new Potter;
-    add_many_to_cart(1, 3) //(id, cnt)
+    add_seq_to_cart([1, 1, 1]); //(id, cnt)
     expect(potter.total_cost).toBe(8 * 3);
 
   });
@@ -58,34 +58,26 @@ describe('Potter', () => {
 
   //Test3
   test('testSeveralDiscounts', () => {
-    // [1, 1, 2]
-    add_many_to_cart(1, 2);
-    potter.add_to_cart(2);
+    add_seq_to_cart([1, 1, 2]);
     expect(potter.total_cost).toBe(8 + (8 * 2 * 0.95));
-
-    // // [1, 1, 2, 2]
-    potter.add_to_cart(2);
+    
+    add_seq_to_cart([2]);
     expect(potter.total_cost).toBe(2 * (8 * 2 * 0.95));
 
-    // [1, 1, 2, 3, 3, 4]
     potter = new Potter;
-    add_many_to_cart(1, 2);
-    potter.add_to_cart(2);
-    add_many_to_cart(3, 2);
-    potter.add_to_cart(4);
+    add_seq_to_cart([1, 1, 2, 3, 3, 4]);
     expect(potter.total_cost).toBe((8 * 4 * 0.8) + (8 * 2 * 0.95));
 
     // [1, 2, 2, 3, 4, 5]
     potter = new Potter;
-    potter.add_to_cart(1);
-    add_many_to_cart(2, 2);
-    potter.add_to_cart(3);
-    potter.add_to_cart(4);
-    potter.add_to_cart(5);
+    add_seq_to_cart([1, 2, 2, 3, 4, 5]);
     expect(potter.total_cost).toBe(8 + (8 * 5 * 0.75));
 
   });
 
+  function add_seq_to_cart(input: number[]) {
+    input.forEach(value => potter.add_to_cart(value));
+  }
 
   function add_many_to_cart(id: number, cnt: number) {
     for (let i = 0; i < cnt; i++) {
