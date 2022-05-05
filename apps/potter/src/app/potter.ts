@@ -18,6 +18,9 @@ export class Potter {
 
     get total_cost() { 
         let cost = 0;
+        for (let id = 1; id < (this.cnt_id + 1); id++){
+            cost += this.cart[id] * 8;
+        }
         return cost;
     }
 
