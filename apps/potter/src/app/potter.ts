@@ -29,11 +29,11 @@ export class Potter {
             });
             let sum_clonecart = this.sum_array(clonecart);
             let cnt_unique = (last_sum_cart - sum_clonecart);
-            
             cost -= this.get_discount(cnt_unique);
+
             last_sum_cart = sum_clonecart
         }       
-        return cost;
+        return Number(cost.toFixed(1));
     }
 
     private sum_array(my_array: number[]){
