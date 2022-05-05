@@ -17,23 +17,28 @@ describe('Potter', () => {
   
   // Test1
   test('testBasics', () => {
+    // add 0
     potter.add_to_cart(0);
     expect(potter.total_cost).toBe(0);
 
+    // add 1 book
     for (let id = 1; id <= 5; id++){
       potter = new Potter;
       potter.add_to_cart(id);
       expect(potter.total_cost).toBe(8);
     }
 
+    // add 3 same books
     potter = new Potter;
-    for (let cnt = 0; cnt < 3; cnt++){
-      potter.add_to_cart(1);
-    }
+    add_many_to_cart(1, 3) //(id, cnt)
     expect(potter.total_cost).toBe(8 * 3);
 
   });
 
-
+  function add_many_to_cart(id: number, cnt: number) {
+    for (let i = 0; i < cnt; i++) {
+      potter.add_to_cart(id);
+    }
+  }
 
 });
