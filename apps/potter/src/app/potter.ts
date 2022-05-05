@@ -15,25 +15,53 @@ export class Potter {
         }
     }
 
-    get total_cost() { ;
+    get total_cost() {
+        
+        let cur_cost = this.sum_array(this.cart) * 8;
+        let min_cost = cur_cost;
+        let cnt_packs: number[] = new Array(3).fill(0);
+
         let last_sum_cart = this.sum_array(this.cart);
-        let cost = last_sum_cart * 8;
-
-        // cloned a cart to avoid modifying this.cart
         let clonecart = Array.from(this.cart);
-
-        for(let iter = 0; iter < 4; iter++){
-            // minus each cnt of books by one
-            clonecart = (clonecart).map((cnt) => {
-                return cnt > 0 ? cnt - 1: cnt;
-            });
+        let tmp_cnt_packs: number[] = new Array(3).fill(0);
+        
+        while(1){
+            // Find cnt_unique : the number of unque books
+            clonecart= this.minus_one_cnt(clonecart, 5);
             let sum_clonecart = this.sum_array(clonecart);
-            let cnt_unique = (last_sum_cart - sum_clonecart);
-            cost -= this.get_discount(cnt_unique);
+            let cnt_uniq = (last_sum_cart - sum_clonecart);
+            if (cnt_uniq >= 3){
+                tmp_cnt_packs[cnt_uniq - 3]++;
+            }
+    
+            // discount
+            cur_cost -= this.get_discount(cnt_uniq);
+            
+            // update the cart since a combination of books was retrieved.
+            last_sum_cart = sum_clonecart;
+            if (sum_clonecart == 0){
+                break;
+            }
+        }
+        if(cur_cost < min_cost){
+            min_cost = cur_cost;
+            cnt_packs = Array.from(tmp_cnt_packs); 
+            
+        }
 
-            last_sum_cart = sum_clonecart
-        }       
-        return Number(cost.toFixed(1));
+        // change (3, 5) to (4, 4)
+        min_cost -= Math.min(cnt_packs[0], cnt_packs[2]) * 0.05 * 8;
+
+        return Number(min_cost.toFixed(1));
+    }
+
+    private minus_one_cnt(my_array: number[], limit: number){
+        let cur_uniq = 0;
+        let clonearray = Array.from(my_array);        
+        clonearray = (my_array).map((cnt) => {
+            return cnt > 0 ? cnt - 1: cnt;
+        });
+        return clonearray;
     }
 
     private sum_array(my_array: number[]){
