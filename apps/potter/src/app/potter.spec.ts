@@ -75,14 +75,20 @@ describe('Potter', () => {
 
   });
 
+  //Test4
+  test('testEdgeCases', () => {
+    add_seq_to_cart([1, 1, 2, 2, 3, 3, 4, 5]);
+    expect(potter.total_cost).toBe(2 * (8 * 4 * 0.8));
+
+    
+    potter = new Potter;
+    add_seq_to_cart([1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5]);
+    expect(potter.total_cost).toBe(3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8));
+    
+  });
+
   function add_seq_to_cart(input: number[]) {
     input.forEach(value => potter.add_to_cart(value));
-  }
-
-  function add_many_to_cart(id: number, cnt: number) {
-    for (let i = 0; i < cnt; i++) {
-      potter.add_to_cart(id);
-    }
   }
 
 });
