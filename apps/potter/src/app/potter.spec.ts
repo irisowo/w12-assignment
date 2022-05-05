@@ -35,6 +35,27 @@ describe('Potter', () => {
 
   });
 
+  // Test2
+  test('testSimpleDiscounts', () => {
+    // 2 defferent books > -5%
+    potter.add_to_cart(1);
+    potter.add_to_cart(2);
+    expect(potter.total_cost).toBe(8 * 2 * 0.95);
+
+    // 3 defferent books > -10%
+    potter.add_to_cart(3);
+    expect(potter.total_cost).toBe(8 * 3 * 0.9);
+
+    // 4 defferent books > -20%
+    potter.add_to_cart(4);
+    expect(potter.total_cost).toBe(8 * 4 * 0.8);
+
+    // 5 defferent books > -25%
+    potter.add_to_cart(5);
+    expect(potter.total_cost).toBe(8 * 5 * 0.75);
+
+  });
+
   function add_many_to_cart(id: number, cnt: number) {
     for (let i = 0; i < cnt; i++) {
       potter.add_to_cart(id);
